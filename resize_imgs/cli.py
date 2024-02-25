@@ -40,6 +40,15 @@ def argparser(cli_args=None):
     parser.add_argument(
         "--grayscale", action="store_true", help="Downscale images to Grayscale"
     )
+    parser.add_argument(
+        "-q",
+        "--quiet",
+        action="store_true",
+        help="Suppress all output messages, except errors",
+    )
+    parser.add_argument(
+        "--verbose", action="store_true", help="Verbose output for debugging"
+    )
 
     ic(parser)
     ic(cli_args)

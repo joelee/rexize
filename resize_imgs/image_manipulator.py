@@ -75,11 +75,7 @@ class ImageManipulator:
     def resize(
         self, width: ImageSizeUnit | int | str, height: ImageSizeUnit | int | str
     ) -> Self:
-        new_size = (
-            self._convert_unit_to_int(width, self.width),
-            self._convert_unit_to_int(height, self.height),
-        )
-        self._image = self.image.resize(new_size)
+        self._image = self.image.resize(self._get_new_size(width, height))
         return self
 
     def convert(self, mode: str) -> Self:
@@ -107,6 +103,23 @@ class ImageManipulator:
 
         self.image.save(dest_path, format=format.value, **kwargs)
         return self
+
+    def _get_new_size(
+        self, width: ImageSizeUnit | int | str, height: ImageSizeUnit | int | str
+    ) -> tuple[int, int]:
+        new_width = self._convert_unit_to_int(width, self.width)
+        new_height = self._convert_unit_to_int(height, self.height)
+
+        # Calculate new width and height if any of them is 0 based on aspect ratio
+        if new_width == 0:
+            new_width = int((new_height / self.height) * self.width)
+        if new_height == 0:
+            new_height = int((new_width / self.width) * self.height)
+
+        if new_width == 0 or new_height == 0:
+            raise ValueError("Both width and height cannot be 0 at the same time")
+
+        return new_width, new_height
 
     @staticmethod
     def _convert_unit_to_int(value: ImageSizeUnit | int | str, source: int) -> int:

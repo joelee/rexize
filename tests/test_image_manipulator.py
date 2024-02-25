@@ -42,6 +42,47 @@ def test_image_manipulator_resize():
     assert image.height == height.value
 
 
+def test_image_manipulator_resize_with_aspect_ratio_on_width():
+    # Arrange
+    image = ImageManipulator(SOURCE_IMAGE)
+    original_width = image.width
+    origial_height = image.height
+    width = 0
+    height = origial_height * 2
+
+    # Act
+    image.resize(width, height)
+
+    # Assert
+    assert image.width == int(original_width * 2)
+    assert image.height == height
+
+
+def test_image_manipulator_resize_with_aspect_ratio_on_height():
+    # Arrange
+    image = ImageManipulator(SOURCE_IMAGE)
+    original_width = image.width
+    origial_height = image.height
+    width = "50%"
+    height = 0
+
+    # Act
+    image.resize(width, height)
+
+    # Assert
+    assert image.width == int(original_width * 0.5)
+    assert image.height == int(origial_height * 0.5)
+
+
+def test_image_manipulator_resize_with_zero_width_and_height():
+    # Arrange
+    image = ImageManipulator(SOURCE_IMAGE)
+
+    # Act and Assert
+    with pytest.raises(ValueError):
+        image.resize(0, 0)
+
+
 def test_image_manipulator_save():
     # Arrange
     image = ImageManipulator(SOURCE_IMAGE)

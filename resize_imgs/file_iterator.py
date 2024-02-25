@@ -9,6 +9,8 @@ import os
 from os.path import join, splitext
 from typing import Generator, Self
 
+from icecream import ic
+
 
 class FileIterator:
     def __init__(self, directory: str) -> None:
@@ -17,6 +19,10 @@ class FileIterator:
             self._filters: list[callable] = []
         else:
             raise FileNotFoundError(f"Directory not found or readable at {directory}")
+
+    @property
+    def directory(self) -> str:
+        return self._directory
 
     def add_filter(self, filter: callable) -> Self:
         self._filters.append(filter)
@@ -31,8 +37,11 @@ class FileIterator:
         return self
 
     def walk(self) -> Generator[str, None, None]:
-        for root, _, files in os.walk(self._directory):
+        ic(self.directory)
+        for root, dir, files in os.walk(self.directory):
+            ic(root, dir)
             for file in files:
+                ic(file)
                 if self._check_filter(file):
                     yield join(root, file)
 
