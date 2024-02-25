@@ -4,7 +4,7 @@ import tempfile
 from uuid import uuid4
 
 import pytest
-from cli import argparser
+from cli import CLI
 
 # Constants
 SOURCE_FOLDER = "tests/data/test_dir_tree"
@@ -39,38 +39,38 @@ def output_folder():
 def test_argparser_in_pixels(output_folder):
     input = [SOURCE_FOLDER, output_folder, "-W", "100", "-H", "200px", "-f", "JPEG"]
 
-    args = argparser(input)
-    assert args.input_folder == SOURCE_FOLDER
-    assert args.output_folder == output_folder
-    assert args.width.value == 100
-    assert args.width.calc_value(12345) == 100
-    assert not args.width.is_percentage
-    assert args.height.value == 200
-    assert args.height.calc_value(54321) == 200
-    assert not args.height.is_percentage
-    assert args.format.value == "JPEG"
+    cli = CLI(input)
+    assert cli.args.input_folder == SOURCE_FOLDER
+    assert cli.args.output_folder == output_folder
+    assert cli.args.width.value == 100
+    assert cli.args.width.calc_value(12345) == 100
+    assert not cli.args.width.is_percentage
+    assert cli.args.height.value == 200
+    assert cli.args.height.calc_value(54321) == 200
+    assert not cli.args.height.is_percentage
+    assert cli.args.format.value == "JPEG"
 
 
 def test_argparser_in_percent(output_folder):
     input = [SOURCE_FOLDER, output_folder, "-W", "50%", "-H", "150%", "-f", "WEBP"]
 
-    args = argparser(input)
-    assert args.input_folder == SOURCE_FOLDER
-    assert args.output_folder == output_folder
-    assert args.width.value == 50
-    assert args.width.calc_value(500) == 250  # 50% of 500 == 250
-    assert args.width.is_percentage
-    assert args.height.value == 150
-    assert args.height.calc_value(100) == 150  # 150% of 100 == 150
-    assert args.height.is_percentage
-    assert args.format.value == "WEBP"
+    cli = CLI(input)
+    assert cli.args.input_folder == SOURCE_FOLDER
+    assert cli.args.output_folder == output_folder
+    assert cli.args.width.value == 50
+    assert cli.args.width.calc_value(500) == 250  # 50% of 500 == 250
+    assert cli.args.width.is_percentage
+    assert cli.args.height.value == 150
+    assert cli.args.height.calc_value(100) == 150  # 150% of 100 == 150
+    assert cli.args.height.is_percentage
+    assert cli.args.format.value == "WEBP"
 
 
 def test_argparser_invalid_folder():
     input = ["INVALID", OUTPUT_BASE_FOLDER, "-W", "100", "-H", "200px", "-f", "JPEG"]
 
     with pytest.raises(FileNotFoundError) as e:
-        argparser(input)
+        CLI(input)
     assert str(e.value) == "Input folder not found or readable at INVALID"
 
 
@@ -78,7 +78,7 @@ def test_argparser_invalid_format(output_folder):
     input = [SOURCE_FOLDER, output_folder, "-W", "100", "-H", "200px", "-f", "INVALID"]
 
     with pytest.raises(ValueError) as e:
-        argparser(input)
+        CLI(input)
     assert str(e.value) == "Invalid image format"
 
 
@@ -89,5 +89,5 @@ def test_argparser_readonly_output_folder():
     input = [SOURCE_FOLDER, readonly_folder, "-W", "100", "-H", "200px", "-f", "JPEG"]
 
     with pytest.raises(PermissionError) as e:
-        argparser(input)
+        CLI(input)
     assert str(e.value) == f"Output folder not writable at {readonly_folder}"

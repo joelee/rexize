@@ -42,3 +42,8 @@ repos:
       entry: flake8 .
       language: system
       pass_filenames: false
+    - id: poetry
+      name: Poetry
+      entry: poetry check
+      language: system
+      pass_filenames: false

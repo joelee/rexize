@@ -9,16 +9,21 @@ import os
 from os.path import join, splitext
 from typing import Generator, Self
 
-from icecream import ic
+from cli import CLI
 
 
 class FileIterator:
-    def __init__(self, directory: str) -> None:
-        if self._is_valid_directory(directory):
-            self._directory = directory
+    def __init__(self, arg: CLI | str) -> None:
+        self._cli = arg if isinstance(arg, CLI) else CLI([arg, arg])
+        args = self._cli.args
+        if self._is_valid_directory(args.input_folder):
+            self._directory = args.input_folder
             self._filters: list[callable] = []
+            self._cli.verbose(f"Iterating files in: {self.directory}")
         else:
-            raise FileNotFoundError(f"Directory not found or readable at {directory}")
+            raise FileNotFoundError(
+                f"Directory not found or readable at {args.input_folder}"
+            )
 
     @property
     def directory(self) -> str:
@@ -33,16 +38,15 @@ class FileIterator:
             _, ext = splitext(file)
             return ext[1:] in extensions
 
+        self._cli.debug(f"Filtering by extensions: {extensions}")
         self.add_filter(filter)
         return self
 
     def walk(self) -> Generator[str, None, None]:
-        ic(self.directory)
         for root, dir, files in os.walk(self.directory):
-            ic(root, dir)
             for file in files:
-                ic(file)
                 if self._check_filter(file):
+                    self._cli.debug(f"Yielding file: {file}")
                     yield join(root, file)
 
     def _is_valid_directory(self, directory_path: str) -> bool:
