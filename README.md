@@ -31,3 +31,9 @@ resize_imgs [options] input_folder output_folder
     --verbose             Verbose output for debugging
 
 ```
+
+## Features TO DO
+- User documentation
+- Bulk renaming image files
+- Rotation and Cropping support
+- Custom filters
