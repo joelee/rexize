@@ -9,7 +9,7 @@ readme = "README.md"
 resize_imgs = "main:main"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.11"
 pillow = "^10.2.0"
 
 
@@ -38,7 +38,7 @@ pythonpath = [
 
 [tool.black]
 line-length = 88
-target-version = ["py310"]
+target-version = ["py311"]
 include =  "(\\.pyi?|\\.ipynb)$"
 exclude = '''
 /(
