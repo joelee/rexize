@@ -4,8 +4,9 @@ import tempfile
 from uuid import uuid4
 
 import pytest
-from icecream import ic
-from image_manipulator import ImageFormat, ImageManipulator, ImageSizeUnit
+
+from image import ImageFormat, ImageSizeUnit
+from image_manipulator import ImageManipulator
 
 # Constants
 SOURCE_IMAGE = "tests/data/test_img.png"  # PNG Image W 440 x H 578
@@ -22,6 +23,24 @@ def teardown_module(module):
     # Delete Output Base Folder if exists
     if os.path.exists(OUTPUT_BASE_FOLDER):
         shutil.rmtree(OUTPUT_BASE_FOLDER)
+
+
+def test_image_size_unit():
+    # Arrange
+    size = ImageSizeUnit(100)
+    percentage = ImageSizeUnit("50%")
+
+    # Act & Assert
+    assert size.value == 100
+    assert size.calc_value(200) == 100
+    assert not size.is_percentage
+    assert percentage.value == 50
+    assert percentage.calc_value(200) == 100
+    assert percentage.is_percentage
+    assert str(size) == "100px"
+    assert str(percentage) == "50%"
+    assert repr(size) == "ImageSizeUnit(100px)"
+    assert repr(percentage) == "ImageSizeUnit(50%)"
 
 
 def test_image_manipulator_resize():
@@ -103,8 +122,6 @@ def test_image_manipulator_save_with_format():
     dest_path = os.path.join(OUTPUT_BASE_FOLDER, f"{uuid4()}.jpg")
 
     # Act
-    ic(dest_path)
-    ic(ImageFormat.JPEG.value)
     image.downscale_to_rgb().rotate(90).downscale_to_grayscale()
     image.save(dest_path, format=ImageFormat.JPEG, quality=75)
 

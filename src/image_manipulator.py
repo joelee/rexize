@@ -1,9 +1,10 @@
 import os
 from typing import Self
 
+from PIL import Image
+
 from cli import CLI
 from image import ImageFormat, ImageSizeUnit
-from PIL import Image
 
 
 class ImageManipulator:

@@ -3,6 +3,7 @@ import os
 import sys
 
 from icecream import ic
+
 from image import ImageFormat, ImageSizeUnit
 
 

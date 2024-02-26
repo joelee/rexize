@@ -20,10 +20,6 @@ class FileIterator:
             self._directory = args.input_folder
             self._filters: list[callable] = []
             self._cli.verbose(f"Iterating files in: {self.directory}")
-        else:
-            raise FileNotFoundError(
-                f"Directory not found or readable at {args.input_folder}"
-            )
 
     @property
     def directory(self) -> str:
