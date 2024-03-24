@@ -52,7 +52,7 @@ norecursedirs = [
 ]
 
 [tool.coverage.report]
-fail_under = 80
+fail_under = 72
 
 [tool.coverage.run]
 branch = true

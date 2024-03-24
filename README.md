@@ -102,3 +102,4 @@ We welcome contributions from the community, whether it's adding new features, f
 - Rotation and Cropping support
 - Custom filters
 - A new GUI Wrapper
+- Increase Test Coverage to above 90%
