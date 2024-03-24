@@ -18,6 +18,7 @@ class CLI:
 
     def parse_args(self, cli_args=None):
         self._args = self._argparser(cli_args)
+        ic(self._args)
         return self.validate_args()
 
     @property

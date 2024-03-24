@@ -1,0 +1,5 @@
+#!/bin/env bash
+
+BASE_PATH=$(dirname $(realpath $0))
+
+poetry run python $BASE_PATH/src/main.py $@

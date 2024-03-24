@@ -35,8 +35,8 @@ class ImageSizeUnit:
     def unit(self) -> str:
         return self._unit
 
-    def calc_value(self, source_px: int) -> int:
-        if self.is_percentage:
+    def calc_value(self, source_px: int | None) -> int:
+        if self.is_percentage and source_px is not None:
             return int((self.value / 100) * source_px)
         return self.value
 

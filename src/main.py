@@ -19,7 +19,7 @@ def main():
         for file in file_iter.walk():
             image = ImageManipulator(file)
             cli.debug(f"Processing: {cli.args}")
-            image.resize(cli.args.width, cli.args.height)
+            image.resize(cli.args.width, cli.args.height, cli.args.max_size)
             if cli.args.rgb:
                 image.downscale_to_rgb()
             if cli.args.grayscale:

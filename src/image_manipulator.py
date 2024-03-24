@@ -82,10 +82,11 @@ class ImageManipulator:
         self,
         width: ImageSizeUnit | int | str,
         height: ImageSizeUnit | int | str,
-        max_size: int,
+        max_size: ImageSizeUnit | int | str,
     ) -> tuple[int, int]:
         new_width = self._convert_unit_to_int(width, self.width)
         new_height = self._convert_unit_to_int(height, self.height)
+        max_size = self._convert_unit_to_int(max_size, None)
 
         if max_size > 0:
             if new_width == 0 and new_height == 0:
@@ -101,13 +102,15 @@ class ImageManipulator:
         if new_height == 0:
             new_height = int((new_width / self.width) * self.height)
 
-        if new_width == 0 or new_height == 0:
-            raise ValueError("Both width and height cannot be 0 at the same time")
+        if new_width == 0 and new_height == 0 and max_size == 0:
+            raise ValueError("Both width and height cannot be 0 at the same time.")
 
         return new_width, new_height
 
     @staticmethod
-    def _convert_unit_to_int(value: ImageSizeUnit | int | str, source: int) -> int:
+    def _convert_unit_to_int(
+        value: ImageSizeUnit | int | str, source: int | None
+    ) -> int:
         if isinstance(value, int):
             return value
 
