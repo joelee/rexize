@@ -40,29 +40,13 @@ This tool is versatile and can be beneficial across various fields. Its potentia
 To get started with Rexize, please ensure you have the Prerequisites and follow the installation instructions below:
 
 ### Prerequisites
-- Python 3.9 or higher
-- Poetry or Pipx package manager
-- Git
-- Linux, macOS, or Windows with WSL
+- Python 3.11 or higher
+- Pip package manager
 - Basic knowledge of the command line interface for now. A GUI wrapper is in the works.
 
 ### Installation
-You can install Rexize using either PipX or Poetry. Choose the method that suits your workflow:
-
-#### Using PipX
-Install [pipx](https://github.com/pypa/pipx) if you haven't already, and then run the following command:
 ```bash
-pipx install git+https://github.com/joelee/rexize.git
-```
-
-#### Using Poetry
-Install [Poetry](https://python-poetry.org/docs/#installation) if you haven't already, and then run the following commands:
-```bash
-git clone https://github.com/joelee/rexize.git ~/.local/rexize
-cd ~/.local/rexize
-poetry install
-echo "alias rexize='~/.local/rexize/bin/rexize'" >> ~/.bashrc
-source ~/.bashrc
+pip install rexize
 ```
 
 ## Usage
@@ -95,15 +79,20 @@ rexize [options] input_folder output_folder
 ```
 
 
+## Project URLs
+- **GitHub Repository**: https://github.com/joelee/rexize
+- **PyPI Package**: https://pypi.org/project/rexize/
+
+
 ## How to Contribute
 
 We welcome contributions from the community, whether it's adding new features, fixing bugs, or improving documentation. If you have a feature request or have identified an issue, please open an issue on GitHub. We also encourage you to fork the repository and submit pull requests with your improvements.
 
 
 ## Features TO DO
-- User documentation
-- Bulk renaming image files
-- Rotation and Cropping support
-- Custom filters
-- A new GUI Wrapper
-- Increase Test Coverage to above 90%
+- [ ] User documentation
+- [ ] Bulk renaming image files
+- [ ] Rotation and Cropping support
+- [ ] Custom filters
+- [ ] A new GUI Wrapper
+- [ ] Increase Test Coverage to above 90%
