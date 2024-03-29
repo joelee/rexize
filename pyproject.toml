@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "resize-imgs"
-version = "0.1.1"
+name = "rexize"
+version = "0.2.1"
 description = "CLI to bulk resize and convery images recursively"
 authors = ["Joseph Lee <joel@joeworks.com>"]
 readme = "README.md"
 license = "MIT"
-repository = "https://github.com/joelee/resize_imgs"
+repository = "https://github.com/joelee/rexize"
 packages = [
   { include = "src" },
 ]
@@ -13,16 +13,16 @@ include = ["pyproject.toml", "README.md", "LICENSE"]
 
 
 [tool.poetry.scripts]
-resize_imgs = "src.main:main"
+rexize = "src.main:main"
 
 [tool.poetry.dependencies]
 python = "^3.11"
 pillow = "^10.2.0"
+icecream = "^2.1.3"
 
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.1"
-icecream = "^2.1.3"
 pytest-cov = "^4.1.0"
 pre-commit = "^3.6.2"
 flake8 = "^7.0.0"

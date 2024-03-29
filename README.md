@@ -19,7 +19,7 @@ This CLI tool for bulk resizing and converting image files has wide-ranging appl
 
 This tool is versatile and can be beneficial across various fields. Its potential use cases and benefits span several domains, including but not limited to:
 
-1. **Web Development and Design**: Optimize images for web usage, ensuring fast loading times and responsiveness without compromising quality.
+1. **Web Development and Design**: Optimize images for web usage, ensuring fast loading times and responsiveness without compromising quality. Bulk prepare thumbnails, hero images, and other assets for websites.
 2. **Digital Marketing**: Prepare images for different social media platforms, email campaigns, and online ads with ease.
 3. **Photography**: Resize and convert images for client delivery, portfolio display, or contest submissions efficiently.
 4. **Data Science and Machine Learning**: Automate the preprocessing of images for computer vision projects.
@@ -41,19 +41,28 @@ To get started with Rexize, please ensure you have the Prerequisites and follow 
 
 ### Prerequisites
 - Python 3.9 or higher
-- Poetry package manager
+- Poetry or Pipx package manager
 - Git
 - Linux, macOS, or Windows with WSL
 - Basic knowledge of the command line interface for now. A GUI wrapper is in the works.
 
 ### Installation
+You can install Rexize using either PipX or Poetry. Choose the method that suits your workflow:
+
+#### Using PipX
+Install [pipx](https://github.com/pypa/pipx) if you haven't already, and then run the following command:
+```bash
+pipx install git+https://github.com/joelee/rexize.git
 ```
+
+#### Using Poetry
+Install [Poetry](https://python-poetry.org/docs/#installation) if you haven't already, and then run the following commands:
+```bash
 git clone https://github.com/joelee/rexize.git ~/.local/rexize
 cd ~/.local/rexize
 poetry install
 echo "alias rexize='~/.local/rexize/bin/rexize'" >> ~/.bashrc
 source ~/.bashrc
-
 ```
 
 ## Usage

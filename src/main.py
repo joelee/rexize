@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 
 import os
+import sys
 import traceback
 
-from cli import CLI
-from file_iterator import FileIterator
-from image_manipulator import ImageManipulator
+sys.path.append(os.path.dirname(__file__))
+
+from cli import CLI  # noqa: E402
+from file_iterator import FileIterator  # noqa: E402
+from image_manipulator import ImageManipulator  # noqa: E402
 
 
 def main():
