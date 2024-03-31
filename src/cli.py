@@ -2,8 +2,6 @@ import argparse
 import os
 import sys
 
-from icecream import ic
-
 from image import ImageFormat, ImageSizeUnit
 
 
@@ -19,7 +17,7 @@ class CLI:
     def parse_args(self, cli_args=None):
         self._args = self._argparser(cli_args)
         if self._dev_mode:
-            ic(self._args)
+            print(self._args)
         return self.validate_args()
 
     @property
@@ -38,7 +36,7 @@ class CLI:
     def exception(self, error: Exception):
         self.error(error)
         if self._dev_mode:
-            ic(error)
+            print(error)
 
     def verbose(self, *args, **kwargs):
         if self.args.verbose:
@@ -46,7 +44,7 @@ class CLI:
 
     def debug(self, *args, **kwargs):
         if self._dev_mode:
-            ic(*args, **kwargs)
+            print(*args, **kwargs)
 
     def exit(self, status: int = 0):
         sys.exit(status)

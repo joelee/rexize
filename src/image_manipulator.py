@@ -74,6 +74,9 @@ class ImageManipulator:
         format: ImageFormat = ImageFormat.Default,
         **kwargs,
     ) -> Self:
+        if dest_path is None:
+            dest_parts = os.path.splitext(self._src_img)
+            dest_path = dest_parts[0] + "-rexised" + dest_parts[1]
         self._cli.verbose(f"Saving image to: {dest_path}")
         self.image.save(dest_path, format=format.value, **kwargs)
         return self
@@ -119,8 +122,6 @@ class ImageManipulator:
 
         if isinstance(value, ImageSizeUnit):
             return value.calc_value(source)
-
-        raise ValueError(f"Invalid value for ImageSizeUnit: ({value})")
 
     @staticmethod
     def _get_new_size_with_max_size(

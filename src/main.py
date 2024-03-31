@@ -14,7 +14,11 @@ from image_manipulator import ImageManipulator  # noqa: E402
 def main():
     try:
         cli = CLI().parse_args().validate_args()
+    except Exception as e:
+        print(e, file=sys.stderr)
+        sys.exit(55)
 
+    try:
         file_iter = FileIterator(cli.args.input_folder).filter_by_extension(
             ["jpg", "jpeg", "png", "webp", "gif", "tiff", "bmp"]
         )
