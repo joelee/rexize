@@ -1,5 +1,5 @@
 import os
-from typing import Self
+from typing import Any, Self
 
 from PIL import Image
 
@@ -111,9 +111,7 @@ class ImageManipulator:
         return new_width, new_height
 
     @staticmethod
-    def _convert_unit_to_int(
-        value: ImageSizeUnit | int | str, source: int | None
-    ) -> int:
+    def _convert_unit_to_int(value: Any, source: int | None) -> int:
         if isinstance(value, int):
             return value
 
@@ -122,6 +120,8 @@ class ImageManipulator:
 
         if isinstance(value, ImageSizeUnit):
             return value.calc_value(source)
+
+        raise ValueError(f"Invalid value for ImageSizeUnit: ({value})")
 
     @staticmethod
     def _get_new_size_with_max_size(
