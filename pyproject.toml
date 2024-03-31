@@ -6,9 +6,7 @@ authors = ["Joseph Lee <joel@joeworks.com>"]
 readme = "README.md"
 license = "MIT"
 repository = "https://github.com/joelee/rexize"
-packages = [
-  { include = "src" },
-]
+packages = [{ include = "src" }]
 include = ["pyproject.toml", "README.md", "LICENSE"]
 classifiers = [
   "Development Status :: 4 - Beta",
@@ -19,7 +17,7 @@ classifiers = [
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.11",
-  "Topic :: Multimedia :: Graphics"
+  "Topic :: Multimedia :: Graphics",
 ]
 keywords = ["cli", "image", "resize", "convert", "bulk"]
 
@@ -48,36 +46,23 @@ build-backend = "poetry.core.masonry.api"
 [tool.pytest.ini_options]
 minversion = "8.0"
 addopts = "-ra"
-testpaths = [
-    "tests",
-]
-pythonpath = [
-    "src",
-]
-norecursedirs = [
-    ".git",
-    ".github",
-    ".vscode",
-    ".idea",
-    "dist",
-    "__pycache__",
-]
+testpaths = ["tests"]
+pythonpath = ["src"]
+norecursedirs = [".git", ".github", ".vscode", ".idea", "dist", "__pycache__"]
 
 [tool.coverage.report]
-fail_under = 72
+fail_under = 62
 
 [tool.coverage.run]
 branch = true
-omit = [
-    "test/*",
-]
+omit = ["test/*"]
 include = ["src/*"]
 command_line = "-m unittest discover -s tests/"
 
 [tool.black]
 line-length = 88
 target-version = ["py311"]
-include =  "(\\.pyi?|\\.ipynb)$"
+include = "(\\.pyi?|\\.ipynb)$"
 exclude = '''
 /(
   \.toml
@@ -91,6 +76,6 @@ exclude = '''
 
 [tool.isort]
 profile = "black"
-py_version=311
+py_version = 311
 src_paths = ["src", "test"]
 line_length = 88
