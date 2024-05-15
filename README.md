@@ -93,6 +93,6 @@ We welcome contributions from the community, whether it's adding new features, f
 - [ ] User documentation
 - [ ] Bulk renaming image files
 - [ ] Rotation and Cropping support
-- [ ] Custom filters
+- [ ] Pre-processing and post-processing filters extensions
 - [ ] A new GUI Wrapper
 - [ ] Increase Test Coverage to above 90%
