@@ -3,3 +3,5 @@
 # from file_iterator import FileIterator
 # from image_manipulator import ImageFormat, ImageManipulator, ImageSizeUnit
 # from main import main
+from base_extension import BaseExtension
+from extension_manager import ExtensionManager

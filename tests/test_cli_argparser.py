@@ -38,7 +38,18 @@ def output_folder():
 
 
 def test_argparser_in_pixels(output_folder):
-    input = [SOURCE_FOLDER, output_folder, "-W", "100", "-H", "200px", "-f", "JPEG"]
+    input = [
+        "-i",
+        SOURCE_FOLDER,
+        "-o",
+        output_folder,
+        "-W",
+        "100",
+        "-H",
+        "200px",
+        "-f",
+        "JPEG",
+    ]
 
     cli = CLI(input)
     assert cli.args.input_folder == SOURCE_FOLDER
@@ -53,7 +64,18 @@ def test_argparser_in_pixels(output_folder):
 
 
 def test_argparser_in_percent(output_folder):
-    input = [SOURCE_FOLDER, output_folder, "-W", "50%", "-H", "150%", "-f", "WEBP"]
+    input = [
+        "-i",
+        SOURCE_FOLDER,
+        "-o",
+        output_folder,
+        "-W",
+        "50%",
+        "-H",
+        "150%",
+        "-f",
+        "WEBP",
+    ]
 
     cli = CLI(input)
     assert cli.args.input_folder == SOURCE_FOLDER
@@ -68,7 +90,18 @@ def test_argparser_in_percent(output_folder):
 
 
 def test_argparser_invalid_folder():
-    input = ["INVALID", OUTPUT_BASE_FOLDER, "-W", "100", "-H", "200px", "-f", "JPEG"]
+    input = [
+        "-i",
+        "INVALID",
+        "-o",
+        OUTPUT_BASE_FOLDER,
+        "-W",
+        "100",
+        "-H",
+        "200px",
+        "-f",
+        "JPEG",
+    ]
 
     with pytest.raises(FileNotFoundError) as e:
         CLI(input)
@@ -76,7 +109,18 @@ def test_argparser_invalid_folder():
 
 
 def test_argparser_invalid_format(output_folder):
-    input = [SOURCE_FOLDER, output_folder, "-W", "100", "-H", "200px", "-f", "INVALID"]
+    input = [
+        "-i",
+        SOURCE_FOLDER,
+        "-o",
+        output_folder,
+        "-W",
+        "100",
+        "-H",
+        "200px",
+        "-f",
+        "INVALID",
+    ]
 
     with pytest.raises(ValueError) as e:
         CLI(input)
@@ -87,8 +131,43 @@ def test_argparser_readonly_output_folder():
     readonly_folder = "/usr/bin"  # A system folder that is readonly.
     # Only works on Unix-like & Mac OS systems
 
-    input = [SOURCE_FOLDER, readonly_folder, "-W", "100", "-H", "200px", "-f", "JPEG"]
+    input = [
+        "-i",
+        SOURCE_FOLDER,
+        "-o",
+        readonly_folder,
+        "-W",
+        "100",
+        "-H",
+        "200px",
+        "-f",
+        "JPEG",
+    ]
 
     with pytest.raises(PermissionError) as e:
         CLI(input)
     assert str(e.value) == f"Output folder not writable at {readonly_folder}"
+
+
+def test_argparser_pre_processor():
+    input = [
+        "-i",
+        SOURCE_FOLDER,
+        "-o",
+        "/tmp",
+        "-p",
+        "FILTER1",
+        "-H",
+        "200px",
+        "-p",
+        "Filter2",
+        "-f",
+        "JPEG",
+    ]
+    print(input)
+
+    with pytest.raises(ValueError) as e:
+        cli = CLI(input)
+        print(cli.args)
+        assert False
+    assert str(e.value) == "Invalid width value"

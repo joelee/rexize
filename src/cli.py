@@ -1,23 +1,23 @@
 import argparse
 import os
-import sys
 
 from image import ImageFormat, ImageSizeUnit
 
 
 class CLI:
-    DEFAULT_CLI_ARGS = ["/tmp", "/tmp"]
+    DEFAULT_CLI_ARGS = ["-h"]
 
-    def __init__(self, cli_args=None, debug_mode: bool = False) -> None:
+    def __init__(self, cli_args=None) -> None:
         self._args = None
-        self._dev_mode = debug_mode or bool(os.environ.get("DEV_MODE"))
         if cli_args:
             self.parse_args(cli_args)
 
     def parse_args(self, cli_args=None):
         self._args = self._argparser(cli_args)
         if self._dev_mode:
-            print(self._args)
+            print(f"Input Args: {self._args}")
+        if self._args.list_extensions:
+            self.list_extensions_and_exit()
         return self.validate_args()
 
     @property
@@ -25,29 +25,6 @@ class CLI:
         if not self._args:
             self._args = self._argparser(self.DEFAULT_CLI_ARGS)
         return self._args
-
-    def print(self, *args, **kwargs):
-        if not self.args.quiet:
-            print(*args, **kwargs)
-
-    def error(self, *args, **kwargs):
-        print(*args, file=sys.stderr, **kwargs)
-
-    def exception(self, error: Exception):
-        self.error(error)
-        if self._dev_mode:
-            print(error)
-
-    def verbose(self, *args, **kwargs):
-        if self.args.verbose:
-            print(*args, **kwargs)
-
-    def debug(self, *args, **kwargs):
-        if self._dev_mode:
-            print(*args, **kwargs)
-
-    def exit(self, status: int = 0):
-        sys.exit(status)
 
     def validate_args(self):
         if not self.args.input_folder:
@@ -83,16 +60,23 @@ class CLI:
             description="Bulk resize and convert images from a folder recursively."
         )
         parser.add_argument(
-            "input_folder",
+            "-i",
+            "--input_folder",
             type=str,
-            default="/tmp",
             help="Input folder containing images",
         )
         parser.add_argument(
-            "output_folder",
+            "-o",
+            "--output_folder",
             type=str,
-            default="/tmp",
             help="Output folder for resized images",
+        )
+        parser.add_argument(
+            "-C",
+            "--config",
+            type=str,
+            default="",
+            help="Path to the configuration file.",
         )
         parser.add_argument(
             "-W",
@@ -123,10 +107,24 @@ class CLI:
             help="Format of the output image: JPEG, PNG, WEBP, GIF, TIFF, BMP",
         )
         parser.add_argument(
-            "--rgb", action="store_true", help="Downscale RGBA images to RGB"
+            "-p",
+            "--pre-processor",
+            type=str,
+            action="append",
+            help="Use a pre-processor EXTENSION to process the image before resizing",
         )
         parser.add_argument(
-            "--grayscale", action="store_true", help="Downscale images to Grayscale"
+            "-P",
+            "--post-processor",
+            type=str,
+            action="append",
+            help="Use a post-processor EXTENSION to process the image after resizing",
+        )
+        parser.add_argument(
+            "-l",
+            "--list-extensions",
+            action="store_true",
+            help="List all available extensions for pre and post processing",
         )
         parser.add_argument(
             "-q",

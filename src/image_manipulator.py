@@ -4,6 +4,7 @@ from typing import Any, Self
 from PIL import Image
 
 from cli import CLI
+from extension_manager import ExtensionManager
 from image import ImageFormat, ImageSizeUnit
 
 
@@ -25,6 +26,10 @@ class ImageManipulator:
                 f"Opened image: {self._src_img} ({self._size[0]}x{self._size[1]})"
             )
         return self._image
+
+    @image.setter
+    def image(self, img: Image.Image):
+        self._image = img
 
     @property
     def size(self) -> tuple[int, int]:
@@ -55,6 +60,14 @@ class ImageManipulator:
     def convert(self, mode: str) -> Self:
         self._image = self.image.convert(mode)
         self._cli.verbose(f"Converted image to: {mode}")
+        return self
+
+    def apply_extension(self, extension_name: str) -> Self:
+        ExtensionManager.apply(extension_name, self._image)
+        return self
+
+    def finalise_extension(self, extension_name: str) -> Self:
+        ExtensionManager.finalise(extension_name, self._image)
         return self
 
     def downscale_to_rgb(self) -> Self:
