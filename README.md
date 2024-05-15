@@ -51,18 +51,20 @@ pip install rexize
 
 ## Usage
 ```
-rexize [options] input_folder output_folder
+rexize [options] -i input_folder -o output_folder
 
 
   Bulk resize and convert images from a folder recursively.
 
 
-  positional arguments:
-    input_folder          Input folder containing images
-    output_folder         Output folder for resized images
-
   options:
     -h, --help            show this help message and exit
+    -i INPUT_FOLDER, --input_folder INPUT_FOLDER
+                          Input folder containing images
+    -o OUTPUT_FOLDER, --output_folder OUTPUT_FOLDER
+                          Output folder for resized images
+    -C CONFIG, --config CONFIG
+                          Path to the configuration file.
     -W WIDTH, --width WIDTH
                           Width to resize the image. Suffix with for percentage
     -H HEIGHT, --height HEIGHT
@@ -71,8 +73,12 @@ rexize [options] input_folder output_folder
                           Maximum size in pixels for the image. Resize if larger than this size
     -f FORMAT, --format FORMAT
                           Format of the output image: JPEG, PNG, WEBP, GIF, TIFF, BMP
-    --rgb                 Downscale RGBA images to RGB
-    --grayscale           Downscale images to Grayscale
+    -p PRE_PROCESSOR, --pre-processor PRE_PROCESSOR
+                          Use a pre-processor EXTENSION to process the image before resizing
+    -P POST_PROCESSOR, --post-processor POST_PROCESSOR
+                          Use a post-processor EXTENSION to process the image after resizing
+    -l, --list-extensions
+                          List all available extensions for pre and post processing
     -q, --quiet           Suppress all output messages, except errors
     --verbose             Verbose output for debugging
 
@@ -89,10 +95,14 @@ rexize [options] input_folder output_folder
 We welcome contributions from the community, whether it's adding new features, fixing bugs, or improving documentation. If you have a feature request or have identified an issue, please open an issue on GitHub. We also encourage you to fork the repository and submit pull requests with your improvements.
 
 
+## Feature in Development
+- [ ] Pre-processing and post-processing filters extensions
+- [ ] Configuration file support
+- [ ] Increase Test Coverage to above 90%
+
+
 ## Features TO DO
 - [ ] User documentation
 - [ ] Bulk renaming image files
 - [ ] Rotation and Cropping support
-- [ ] Pre-processing and post-processing filters extensions
 - [ ] A new GUI Wrapper
-- [ ] Increase Test Coverage to above 90%

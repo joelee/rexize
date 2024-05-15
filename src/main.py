@@ -59,7 +59,7 @@ class Rexize:
 
     def process_images(self):
         # Process the images in the input folder
-        for file in self._file_input_iterator().walk():
+        for file in self._input_iterator().walk():
             image = ImageManipulator(file)
 
             # Pre-process the image
@@ -82,7 +82,7 @@ class Rexize:
 
     def finalise_images(self):
         final_count = 0
-        for file in self._file_output_iterator().walk():
+        for file in self._output_iterator().walk():
             image = ImageManipulator(file)
             for extension_name in self._finalise_processes:
                 self.apply_extension(extension_name, image)
@@ -111,12 +111,12 @@ class Rexize:
             console.print(f"  {ext_name}: {ext_desc}")
         sys.exit(0)
 
-    def _file_input_iterator(self):
+    def _input_iterator(self):
         return FileIterator(self.args.input_folder).filter_by_extension(
             self.SUPPORTED_FORMATS
         )
 
-    def _file_output_iterator(self):
+    def _output_iterator(self):
         return FileIterator(self.args.output_folder).filter_by_extension(
             self.SUPPORTED_FORMATS
         )
