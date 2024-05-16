@@ -30,12 +30,12 @@ class FileIterator:
         return self
 
     def filter_by_extension(self, extensions: list[str]) -> Self:
-        def filter(file: str) -> bool:
+        def file_filter(file: str) -> bool:
             _, ext = splitext(file)
             return ext[1:] in extensions
 
         self._cli.debug(f"Filtering by extensions: {extensions}")
-        self.add_filter(filter)
+        self.add_filter(file_filter)
         return self
 
     def walk(self) -> Generator[str, None, None]:

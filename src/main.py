@@ -10,7 +10,7 @@ sys.path.append(os.path.dirname(__file__))
 from cli import CLI  # noqa: E402
 from extension_manager import ExtensionManager  # noqa: E402
 from file_iterator import FileIterator  # noqa: E402
-from image_manipulator import ImageManipulator  # noqa: E402
+from image import RexizeImage  # noqa: E402
 
 
 class Rexize:
@@ -59,8 +59,9 @@ class Rexize:
 
     def process_images(self):
         # Process the images in the input folder
-        for file in self._input_iterator().walk():
-            image = ImageManipulator(file)
+        for src_file in self._input_iterator().walk():
+            out_file = self.get_output_file(src_file, self.args)
+            image = RexizeImage(src_file, out_file)
 
             # Pre-process the image
             if self.args.pre_processor:
@@ -74,20 +75,19 @@ class Rexize:
                 for extension_name in self.args.post_processor:
                     self.apply_extension(extension_name, image)
 
-            out_file = self.get_output_file(file, self.args)
-            console.print(f"Processing: {file} --> {out_file}")
+            console.print(f"Processing: {src_file} --> {out_file}")
             self._file_count += 1
-            image.save(out_file)
+            image.save(self.args.format)
         console.print(f"Processed {self._file_count} files.")
 
     def finalise_images(self):
         final_count = 0
         for file in self._output_iterator().walk():
-            image = ImageManipulator(file)
+            image = RexizeImage(file, file)
             for extension_name in self._finalise_processes:
-                self.apply_extension(extension_name, image)
+                self.finalise_extension(extension_name, image)
             final_count += 1
-            image.save(file)
+            image.save(self.args.format)
         console.print(f"Finalised {final_count} files.")
         if final_count != self._file_count:
             console.error(
@@ -95,11 +95,15 @@ class Rexize:
                 f"{self._file_count} processed files."
             )
 
-    def apply_extension(self, extension_name: str, image: ImageManipulator):
+    def apply_extension(self, extension_name: str, image: RexizeImage):
         ext = self._ext_manager.get(extension_name)
-        ext.apply(image.image)
+        ext.apply(image)
         if ext.has_finaliser():
             self._finalise_processes.append(ext)
+
+    def finalise_extension(self, extension_name: str, image: RexizeImage):
+        ext = self._ext_manager.get(extension_name)
+        ext.finalise(image)
 
     def list_extensions_and_exit(self):
         # List the available extensions and exit
@@ -148,5 +152,9 @@ class Rexize:
         return new_file
 
 
-if __name__ == "__main__":
+def main():
     Rexize().run()
+
+
+if __name__ == "__main__":
+    main()

@@ -5,8 +5,8 @@ from uuid import uuid4
 
 import pytest
 
-from image import ImageFormat, ImageSizeUnit
-from image_manipulator import ImageManipulator
+from image import RexizeImage
+from image_util import ImageFormat, ImageSizeUnit
 
 # Constants
 SOURCE_IMAGE = "tests/data/test_img.png"  # PNG Image W 440 x H 578
@@ -45,7 +45,7 @@ def test_image_size_unit():
 
 def test_image_manipulator_resize():
     # Arrange
-    image = ImageManipulator(SOURCE_IMAGE)
+    image = RexizeImage(SOURCE_IMAGE)
     original_width = image.width
     width = "25%"
     height = ImageSizeUnit(110)
@@ -63,7 +63,7 @@ def test_image_manipulator_resize():
 
 def test_image_manipulator_resize_with_aspect_ratio_on_width():
     # Arrange
-    image = ImageManipulator(SOURCE_IMAGE)
+    image = RexizeImage(SOURCE_IMAGE)
     original_width = image.width
     origial_height = image.height
     width = 0
@@ -79,7 +79,7 @@ def test_image_manipulator_resize_with_aspect_ratio_on_width():
 
 def test_image_manipulator_resize_with_aspect_ratio_on_height():
     # Arrange
-    image = ImageManipulator(SOURCE_IMAGE)
+    image = RexizeImage(SOURCE_IMAGE)
     original_width = image.width
     origial_height = image.height
     width = "50%"
@@ -95,7 +95,7 @@ def test_image_manipulator_resize_with_aspect_ratio_on_height():
 
 def test_image_manipulator_resize_with_zero_width_and_height():
     # Arrange
-    image = ImageManipulator(SOURCE_IMAGE)
+    image = RexizeImage(SOURCE_IMAGE)
 
     # Act and Assert
     with pytest.raises(ValueError):
@@ -104,7 +104,7 @@ def test_image_manipulator_resize_with_zero_width_and_height():
 
 def test_image_manipulator_save():
     # Arrange
-    image = ImageManipulator(SOURCE_IMAGE)
+    image = RexizeImage(SOURCE_IMAGE)
     dest_path = os.path.join(OUTPUT_BASE_FOLDER, f"{uuid4()}.png")
 
     # Act
@@ -118,7 +118,7 @@ def test_image_manipulator_save():
 
 def test_image_manipulator_save_with_format():
     # Arrange
-    image = ImageManipulator(SOURCE_IMAGE)
+    image = RexizeImage(SOURCE_IMAGE)
     dest_path = os.path.join(OUTPUT_BASE_FOLDER, f"{uuid4()}.jpg")
 
     # Act
@@ -135,12 +135,12 @@ def test_image_manipulator_invalid_source_image():
 
     # Act & Assert
     with pytest.raises(FileNotFoundError):
-        ImageManipulator(invalid_image_path)
+        RexizeImage(invalid_image_path)
 
 
 def test_image_manipulator_invalid_resize():
     # Arrange
-    image = ImageManipulator(SOURCE_IMAGE)
+    image = RexizeImage(SOURCE_IMAGE)
 
     # Act & Assert
     with pytest.raises(ValueError):
