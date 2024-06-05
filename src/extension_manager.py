@@ -4,6 +4,7 @@ import os
 import sys
 
 from base_extension import BaseExtension
+from icecream import ic
 from PIL import Image
 
 
@@ -25,13 +26,19 @@ class ExtensionManager:
         extension = self._load_extension(extension_name)
         extension.apply(image)
 
+    def finalise(self, extension_name, image: Image.Image):
+        extension = self._load_extension(extension_name)
+        extension.finalise(image)
+
     def list_extensions(self):
         """
         List all available extensions in the extension directory.
         :return:
         """
         extensions = {}
+        ic(self.EXT_PATH)
         for ext_file in glob.glob(f"{self.EXT_PATH}/*.py"):
+            ic(ext_file)
             ext_name = os.path.basename(ext_file)[:-3]
             if ext_name.startswith("__"):
                 continue
@@ -60,4 +67,4 @@ class ExtensionManager:
 if __name__ == "__main__":
     print("Extension Manager")
     em = ExtensionManager()
-    em.list_extensions()
+    ic(em.list_extensions())

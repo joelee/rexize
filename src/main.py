@@ -7,10 +7,10 @@ from console import ConsoleLevel, console
 
 sys.path.append(os.path.dirname(__file__))
 
-from cli import CLI  # noqa: E402
-from extension_manager import ExtensionManager  # noqa: E402
-from file_iterator import FileIterator  # noqa: E402
-from image import RexizeImage  # noqa: E402
+from cli import CLI
+from extension_manager import ExtensionManager
+from file_iterator import FileIterator
+from image import RexizeImage
 
 
 class Rexize:
