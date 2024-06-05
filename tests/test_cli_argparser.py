@@ -9,6 +9,7 @@ from cli import CLI
 # Constants
 SOURCE_FOLDER = "tests/data/test_dir_tree"
 OUTPUT_BASE_FOLDER = os.path.join(tempfile.gettempdir(), "resize_imgs_argparser_test")
+CONFIG_FILE = "tests/data/sample_config.json"
 
 
 def setup_module(module):
@@ -37,7 +38,7 @@ def output_folder():
 
 
 def test_argparser_in_pixels(output_folder):
-    input = [
+    args = [
         "-i",
         SOURCE_FOLDER,
         "-o",
@@ -50,7 +51,7 @@ def test_argparser_in_pixels(output_folder):
         "JPEG",
     ]
 
-    cli = CLI(input)
+    cli = CLI(args)
     assert cli.args.input_folder == SOURCE_FOLDER
     assert cli.args.output_folder == output_folder
     assert cli.args.width.value == 100
@@ -63,7 +64,7 @@ def test_argparser_in_pixels(output_folder):
 
 
 def test_argparser_in_percent(output_folder):
-    input = [
+    args = [
         "-i",
         SOURCE_FOLDER,
         "-o",
@@ -76,7 +77,7 @@ def test_argparser_in_percent(output_folder):
         "WEBP",
     ]
 
-    cli = CLI(input)
+    cli = CLI(args)
     assert cli.args.input_folder == SOURCE_FOLDER
     assert cli.args.output_folder == output_folder
     assert cli.args.width.value == 50
@@ -89,7 +90,7 @@ def test_argparser_in_percent(output_folder):
 
 
 def test_argparser_invalid_folder():
-    input = [
+    args = [
         "-i",
         "INVALID",
         "-o",
@@ -103,12 +104,12 @@ def test_argparser_invalid_folder():
     ]
 
     with pytest.raises(FileNotFoundError) as e:
-        CLI(input)
+        CLI(args)
     assert str(e.value) == "Input folder not found or readable at INVALID"
 
 
 def test_argparser_invalid_format(output_folder):
-    input = [
+    args = [
         "-i",
         SOURCE_FOLDER,
         "-o",
@@ -122,7 +123,7 @@ def test_argparser_invalid_format(output_folder):
     ]
 
     with pytest.raises(ValueError) as e:
-        CLI(input)
+        CLI(args)
     assert str(e.value) == "Invalid image format"
 
 
@@ -130,7 +131,7 @@ def test_argparser_readonly_output_folder():
     readonly_folder = "/usr/bin"  # A system folder that is readonly.
     # Only works on Unix-like & Mac OS systems
 
-    input = [
+    args = [
         "-i",
         SOURCE_FOLDER,
         "-o",
@@ -144,12 +145,12 @@ def test_argparser_readonly_output_folder():
     ]
 
     with pytest.raises(PermissionError) as e:
-        CLI(input)
+        CLI(args)
     assert str(e.value) == f"Output folder not writable at {readonly_folder}"
 
 
 def test_argparser_pre_processor():
-    input = [
+    args = [
         "-i",
         SOURCE_FOLDER,
         "-o",
@@ -163,10 +164,47 @@ def test_argparser_pre_processor():
         "-f",
         "JPEG",
     ]
-    print(input)
 
-    with pytest.raises(ValueError) as e:
-        cli = CLI(input)
-        print(cli.args)
-        # assert False
-    assert str(e.value) == "Invalid width value"
+    cli = CLI(args)
+    assert cli.args.pre_processor == ["FILTER1", "Filter2"]
+
+
+def test_argparser_post_processor():
+    args = [
+        "-i",
+        SOURCE_FOLDER,
+        "-o",
+        "/tmp",
+        "-P",
+        "FILTER1",
+        "-H",
+        "200px",
+        "-P",
+        "Filter2",
+        "-f",
+        "JPEG",
+    ]
+
+    cli = CLI(args)
+    assert cli.args.post_processor == ["FILTER1", "Filter2"]
+
+
+def test_argparser_config_file():
+    args = [
+        "-i",
+        SOURCE_FOLDER,
+        "-o",
+        "/tmp",
+        "-C",
+        CONFIG_FILE,
+    ]
+
+    cli = CLI(args)
+
+    assert cli.args.config == CONFIG_FILE
+    assert cli.args.width.value == 1920
+    assert cli.args.height.value == 1080
+    assert cli.args.format.value == "PNG"
+    assert "filter1" in cli.args.pre_processor
+    assert "filter3" in cli.args.post_processor
+    assert cli.args.verbose

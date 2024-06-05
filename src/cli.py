@@ -29,6 +29,8 @@ class CLI:
         return self._args
 
     def validate_args(self):
+        # if self.args.config:
+        #     self.read_config(self.args.config)
         if not self.args.input_folder:
             raise ValueError("Input folder is required")
         if not self.args.width and not self.args.height and not self.args.max_size:
@@ -55,39 +57,6 @@ class CLI:
             )
 
         return self
-
-    def read_config(self, config_file: str) -> dict:
-        supported_config_keys = [
-            "width",
-            "height",
-            "max_size",
-            "format",
-            "pre_processor",
-            "post_processor",
-            "quiet",
-            "verbose",
-        ]
-
-        if not self._args:
-            raise ValueError("CLI arguments not parsed yet")
-
-        if not os.path.exists(config_file):
-            raise FileNotFoundError(f"Config file not found at {config_file}")
-        with open(config_file) as f:
-            if config_file.lower().endswith(".json"):
-                config = json.load(f)
-            elif config_file.lower().endswith(".yaml"):
-                config = yaml.safe_load(f)
-            else:
-                raise ValueError(
-                    f"Configuration file {config_file} is not in JSON or YAML format"
-                )
-        console.verbose(f"Configuration loaded from {config_file}:\n{config}")
-        for key in config.keys():
-            if key not in supported_config_keys:
-                raise ValueError(f"Invalid configuration key: {key}")
-            self._args.__setattr__(key, config[key])
-        return self.validate_args()
 
     @staticmethod
     def _argparser(cli_args=None) -> argparse.Namespace:
@@ -174,6 +143,23 @@ class CLI:
         )
 
         args = parser.parse_args(cli_args)
+
+        # Load configuration from file if provided
+        if args.config:
+            with open(args.config) as f:
+                if args.config.lower().endswith(".json"):
+                    config = json.load(f)
+                elif args.config.lower().endswith(".yaml"):
+                    config = yaml.safe_load(f)
+                else:
+                    raise ValueError(
+                        f"Configuration file {args.config} is not JSON or YAML"
+                    )
+            console.verbose(f"Configuration loaded from {args.config}:\n{config}")
+            for key in config.keys():
+                if key not in vars(args):
+                    raise ValueError(f"Invalid configuration key: {key}")
+                setattr(args, key, config[key])
 
         # Validate the width and height
         args.width = ImageSizeUnit(args.width)

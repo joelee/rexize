@@ -24,11 +24,18 @@ class ExtensionManager:
 
     def apply(self, extension_name, image: Image.Image):
         extension = self._load_extension(extension_name)
-        extension.apply(image)
+        return extension.apply(image)
 
     def finalise(self, extension_name, image: Image.Image):
         extension = self._load_extension(extension_name)
-        extension.finalise(image)
+        return extension.finalise(image)
+
+    def register(self, extension_name, extension_instance):
+        if not isinstance(extension_instance, BaseExtension):
+            raise TypeError("Extension must be of type BaseExtension")
+        if extension_name in self._extensions:
+            raise ValueError(f"Extension '{extension_name}' already registered")
+        self._extensions[extension_name] = extension_instance
 
     def list_extensions(self):
         """
@@ -58,8 +65,12 @@ class ExtensionManager:
             module = importlib.util.module_from_spec(spec)
             sys.modules[module_name] = module
             spec.loader.exec_module(module)
-            self._extensions[extension_name] = module
-            return self._extensions[extension_name].RexizeExtension()
+            if not hasattr(module, self.EXT_CLASS_NAME):
+                raise ImportError(
+                    f"Extension '{extension_name}' is not a Rexize Extension"
+                )
+            self._extensions[extension_name] = module.RexizeExtension()
+            return self._extensions[extension_name]
         except ModuleNotFoundError as e:
             raise ImportError(f"Extension '{extension_name}' not found") from e
 

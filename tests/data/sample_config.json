@@ -1,12 +1,9 @@
 {
   "width": 1920,
   "height": 1080,
-  "max-size": 1920,
+  "max_size": 1920,
   "format": "png",
-  "rgb": true,
   "verbose": true,
-  "use": {
-    "filter1": "param1",
-    "filter2": "param2"
-  }
+  "pre_processor": ["filter1", "filter2"],
+  "post_processor": ["filter3", "filter4"]
 }
