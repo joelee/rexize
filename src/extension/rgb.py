@@ -1,9 +1,9 @@
 """
 Rexize Extension to downscale an image to RGB format.
 """
-from PIL import Image
 
 from base_extension import BaseExtension
+from PIL import Image
 
 
 class RexizeExtension(BaseExtension):

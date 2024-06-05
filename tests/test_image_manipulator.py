@@ -4,7 +4,6 @@ import tempfile
 from uuid import uuid4
 
 import pytest
-
 from image import RexizeImage
 from image_util import ImageFormat, ImageSizeUnit
 

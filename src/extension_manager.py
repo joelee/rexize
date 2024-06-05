@@ -3,9 +3,8 @@ import importlib.util
 import os
 import sys
 
-from PIL import Image
-
 from base_extension import BaseExtension
+from PIL import Image
 
 
 class ExtensionManager:
@@ -54,8 +53,8 @@ class ExtensionManager:
             spec.loader.exec_module(module)
             self._extensions[extension_name] = module
             return self._extensions[extension_name].RexizeExtension()
-        except ModuleNotFoundError:
-            raise ImportError(f"Extension '{extension_name}' not found")
+        except ModuleNotFoundError as e:
+            raise ImportError(f"Extension '{extension_name}' not found") from e
 
 
 if __name__ == "__main__":

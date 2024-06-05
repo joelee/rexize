@@ -1,13 +1,14 @@
-# Iterate through the files in the directory recursively with option to filter by file extensions
-# and return a Generator of the file paths.
+# Iterate through the files in the directory recursively with option to filter
+# by file extensions and return a Generator of the file paths.
 
 # Usage:
 # for file in file_iterator("path/to/directory").walk():
 #     print(file)
 
 import os
+from collections.abc import Generator
 from os.path import join, splitext
-from typing import Generator, Self
+from typing import Self
 
 from cli import CLI
 
@@ -39,7 +40,7 @@ class FileIterator:
         return self
 
     def walk(self) -> Generator[str, None, None]:
-        for root, dir, files in os.walk(self.directory):
+        for root, _, files in os.walk(self.directory):
             for file in files:
                 if self._check_filter(file):
                     self._cli.debug(f"Yielding file: {file}")

@@ -1,5 +1,4 @@
 import pytest
-
 from cli import CLI
 from file_iterator import FileIterator
 

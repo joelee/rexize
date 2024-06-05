@@ -1,6 +1,9 @@
 import argparse
+import json
 import os
 
+import yaml
+from console import console
 from image import ImageFormat, ImageSizeUnit
 
 
@@ -14,8 +17,7 @@ class CLI:
 
     def parse_args(self, cli_args=None):
         self._args = self._argparser(cli_args)
-        if self._dev_mode:
-            print(f"Input Args: {self._args}")
+        console.verbose(f"Input Args: {self._args}")
         if self._args.list_extensions:
             self.list_extensions_and_exit()
         return self.validate_args()
@@ -53,6 +55,39 @@ class CLI:
             )
 
         return self
+
+    def read_config(self, config_file: str) -> dict:
+        supported_config_keys = [
+            "width",
+            "height",
+            "max_size",
+            "format",
+            "pre_processor",
+            "post_processor",
+            "quiet",
+            "verbose",
+        ]
+
+        if not self._args:
+            raise ValueError("CLI arguments not parsed yet")
+
+        if not os.path.exists(config_file):
+            raise FileNotFoundError(f"Config file not found at {config_file}")
+        with open(config_file) as f:
+            if config_file.lower().endswith(".json"):
+                config = json.load(f)
+            elif config_file.lower().endswith(".yaml"):
+                config = yaml.safe_load(f)
+            else:
+                raise ValueError(
+                    f"Configuration file {config_file} is not in JSON or YAML format"
+                )
+        console.verbose(f"Configuration loaded from {config_file}:\n{config}")
+        for key in config.keys():
+            if key not in supported_config_keys:
+                raise ValueError(f"Invalid configuration key: {key}")
+            self._args.__setattr__(key, config[key])
+        return self.validate_args()
 
     @staticmethod
     def _argparser(cli_args=None) -> argparse.Namespace:
@@ -97,7 +132,9 @@ class CLI:
             "--max-size",
             type=int,
             default=0,
-            help="Maximum size in pixels for the image. Resize if larger than this size",
+            help=(
+                "Maximum size in pixels for the image. Resize if larger than this size"
+            ),
         )
         parser.add_argument(
             "-f",
@@ -147,7 +184,7 @@ class CLI:
         # Validate the format is a valid image format
         try:
             args.format = ImageFormat[args.format.upper()]
-        except KeyError:
-            raise ValueError("Invalid image format")
+        except KeyError as e:
+            raise ValueError("Invalid image format") from e
 
         return args

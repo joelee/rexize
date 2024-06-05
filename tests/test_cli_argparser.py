@@ -4,7 +4,6 @@ import tempfile
 from uuid import uuid4
 
 import pytest
-
 from cli import CLI
 
 # Constants
@@ -169,5 +168,5 @@ def test_argparser_pre_processor():
     with pytest.raises(ValueError) as e:
         cli = CLI(input)
         print(cli.args)
-        assert False
+        # assert False
     assert str(e.value) == "Invalid width value"

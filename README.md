@@ -98,7 +98,7 @@ We welcome contributions from the community, whether it's adding new features, f
 ## Feature in Development
 - [ ] Pre-processing and post-processing filters extensions
 - [ ] Configuration file support
-- [ ] Increase Test Coverage to above 90%
+- [ ] New extension that detects and normalizes the exposure of photos in a folder to ensure uniform exposure across all images
 
 
 ## Features TO DO
