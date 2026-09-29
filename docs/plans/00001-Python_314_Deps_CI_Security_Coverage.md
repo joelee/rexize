@@ -8,10 +8,10 @@ tags:
   - opencode
 type: delivery-plan
 plan_id: "PLAN-00001"
-plan_status: draft
+plan_status: approved
 plan_kind: initial
 created_at: "2026-09-29T17:04:16Z"
-approved_at: null
+approved_at: "2026-09-29T23:18:11Z"
 planner_agent: DeliveryPlanner
 planner_model: "zai-coding-plan/glm-5.3"
 triggered_by: user
@@ -26,7 +26,7 @@ requirements_count: 5
 steps_count: 5
 acceptance_criteria_count: 6
 blocking_decisions: 0
-build_ready: false
+build_ready: true
 web_research_used: true
 confidence: high
 
@@ -44,7 +44,7 @@ current_step: null
 
 # Delivery Plan 00001: Python 314 Deps CI Security Coverage
 
-> [!abstract] Plan status: `draft`
+> [!abstract] Plan status: `approved`
 > Raise rexize's Python floor to 3.12 and support 3.14.x (supported range 3.12–3.14, dropping 3.11 per user direction), refresh all dependencies past every listed security-advisory floor, modernize the GitHub Actions CI with a 3.12–3.14 matrix, and raise enforced test coverage from 62% to 80%. All advisory floors and Python ranges were verified against current registry metadata; no blocking decisions remain.
 
 ## 1. Objective and outcome
@@ -403,6 +403,7 @@ None
 |---|---|---|---|---|
 | 2026-09-29T17:04:16Z | draft | Initial draft published (5 requirements, 5 steps, 6 acceptance criteria) | User request: Python 3.14.x support, package updates, CI implementation, listed security advisories, ≥80% coverage | DeliveryPlanner |
 | 2026-09-29T22:46:41Z | draft | Python floor changed from `^3.11` to `^3.12` per user correction; supported/tested range now 3.12–3.14 (3.11 dropped, DEC-01 re-resolved as user-directed); STEP-01 takes the python-constraint change so the lock regenerates once; CI matrix, classifiers, verification envs (3.12 + 3.14), root `AGENTS.md` alignment, and AC-02/03/05 updated | User instruction "Change floor to 3.12" | User |
+| 2026-09-29T23:18:11Z | approved | Approved for Builder execution (`plan_status: approved`, `build_ready: true`); planning content frozen at approval | Explicit user approval "Plan 00001 approved." | User |
 
 ## 19. External references
 
