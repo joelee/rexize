@@ -26,7 +26,7 @@ rexize = "src.main:main"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-pillow = "^12.3"
+pillow = "^13.0"
 
 
 [tool.poetry.group.dev.dependencies]
