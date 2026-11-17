@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "rexize"
-version = "0.2.4"
+version = "0.3.0"
 description = "CLI to bulk resize and convert images recursively"
 authors = ["Joseph Lee <joel@joeworks.com>"]
 readme = "README.md"
