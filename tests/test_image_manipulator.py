@@ -147,3 +147,65 @@ def test_image_manipulator_invalid_resize():
         image.resize(100, [120, 120])
     with pytest.raises(ValueError):
         image.resize("invalid", 100)
+
+
+def test_image_manipulator_resize_with_max_size_when_both_sides_are_larger():
+    # Arrange
+    image = ImageManipulator(SOURCE_IMAGE)  # 440 x 578
+    max_size = 200
+
+    # Act
+    image.resize(0, 0, max_size)
+
+    # Assert: the longest side is limited and the aspect ratio is kept
+    assert max(image.width, image.height) == max_size
+    assert image.height == max_size
+    assert image.width / image.height == pytest.approx(440 / 578, abs=0.01)
+
+
+def test_image_manipulator_resize_with_max_size_limits_only_the_width():
+    # Arrange
+    image = ImageManipulator(SOURCE_IMAGE)
+
+    # Act
+    image.resize(300, 100, ImageSizeUnit(200))
+
+    # Assert
+    assert (image.width, image.height) == (200, 66)
+
+
+def test_image_manipulator_resize_with_max_size_limits_only_the_height():
+    # Arrange
+    image = ImageManipulator(SOURCE_IMAGE)
+
+    # Act
+    image.resize(100, 300, ImageSizeUnit(200))
+
+    # Assert
+    assert (image.width, image.height) == (66, 200)
+
+
+def test_image_manipulator_resize_with_max_size_keeps_a_smaller_image():
+    # Arrange
+    image = ImageManipulator(SOURCE_IMAGE)
+
+    # Act
+    image.resize(100, 120, 500)
+
+    # Assert
+    assert (image.width, image.height) == (100, 120)
+
+
+def test_image_manipulator_save_without_destination_writes_next_to_the_source(
+    tmp_path,
+):
+    # Arrange
+    source = tmp_path / "photo.png"
+    shutil.copy(SOURCE_IMAGE, source)
+    image = ImageManipulator(str(source))
+
+    # Act
+    image.resize(50, 50).save()
+
+    # Assert
+    assert (tmp_path / "photo-rexised.png").is_file()

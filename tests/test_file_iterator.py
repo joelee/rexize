@@ -24,3 +24,36 @@ def test_file_iterator_filter():
 def test_file_iterator_filter_invalid_directory():
     with pytest.raises(FileNotFoundError):
         FileIterator("tests/data/invalid_dir_tree")
+
+
+def test_file_iterator_directory():
+    file_iter = FileIterator("tests/data/test_dir_tree")
+
+    assert file_iter.directory == "tests/data/test_dir_tree"
+
+
+def test_file_iterator_custom_filter_chained_with_extension_filter():
+    file_iter = FileIterator("tests/data/test_dir_tree")
+
+    files = list(
+        file_iter.filter_by_extension(["ext1"])
+        .add_filter(lambda file: file.startswith("file2"))
+        .walk()
+    )
+
+    assert sorted(files) == [
+        "tests/data/test_dir_tree/p2/p21/file21.ext1",
+        "tests/data/test_dir_tree/p2/p22/file22.ext1",
+    ]
+
+
+def test_file_iterator_filters_must_all_match():
+    file_iter = FileIterator("tests/data/test_dir_tree")
+
+    files = list(
+        file_iter.add_filter(lambda file: file.endswith(".ext"))
+        .add_filter(lambda file: False)
+        .walk()
+    )
+
+    assert files == []

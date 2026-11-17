@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "rexize"
-version = "0.2.4"
+version = "0.3.0"
 description = "CLI to bulk resize and convert images recursively"
 authors = ["Joseph Lee <joel@joeworks.com>"]
 readme = "README.md"
@@ -16,7 +16,9 @@ classifiers = [
   "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Topic :: Multimedia :: Graphics",
 ]
 keywords = ["cli", "image", "resize", "convert", "bulk"]
@@ -26,7 +28,7 @@ rexize = "src.main:main"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-pillow = "^12.3"
+pillow = "^13.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -51,7 +53,7 @@ pythonpath = ["src"]
 norecursedirs = [".git", ".github", ".vscode", ".idea", "dist", "__pycache__"]
 
 [tool.coverage.report]
-fail_under = 62
+fail_under = 80
 
 [tool.coverage.run]
 branch = true
@@ -61,7 +63,7 @@ command_line = "-m unittest discover -s tests/"
 
 [tool.black]
 line-length = 88
-target-version = ["py311"]
+target-version = ["py312"]
 include = "(\\.pyi?|\\.ipynb)$"
 exclude = '''
 /(
@@ -76,6 +78,6 @@ exclude = '''
 
 [tool.isort]
 profile = "black"
-py_version = 311
+py_version = 312
 src_paths = ["src", "test"]
 line_length = 88

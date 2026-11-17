@@ -10,7 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 poetry install
 poetry run pytest                                                 # run from repo root (fixtures use relative paths)
 poetry run pytest tests/test_file_iterator.py::test_file_iterator # single test
-poetry run pytest --cov=src --cov-report=term-missing tests/      # CI invocation, fails under 62%
+poetry run pytest --cov=src --cov-report=term-missing tests/      # CI invocation, fails under 80%
 pre-commit run --all-files                                        # black, flake8, isort, poetry check
 bin/rexize -W 800 in_dir out_dir -f webp                          # run the CLI locally
 ```
@@ -25,6 +25,6 @@ bin/rexize -W 800 in_dir out_dir -f webp                          # run the CLI 
 - `CLI` is also the logger: `print` (respects `--quiet`), `verbose` (`--verbose`), `debug` (`DEV_MODE` env var), `exception`/`error` (stderr). `ImageManipulator` creates its own `CLI()` with default args (`/tmp /tmp`) when none is passed, so `verbose` output there only appears if a configured `CLI` is injected.
 - `CLI.validate_args` has side effects: it creates the output folder and defaults it to `<input>_resized` when absent (though argparse still declares `output_folder` as a required positional).
 
-## Work in flux: PLAN-00001
+## Python versions and known quirks
 
-`docs/plans/00001-Python_314_Deps_CI_Security_Coverage.md` (approved) drives an in-progress Python 3.14 / dependency / CI / security / coverage update. The working tree may be mid-migration. `pyproject.toml` currently says `python = "^3.12"` while `.python-version` is `3.11.2` and the black/isort targets are `py311`, so the "pinned to 3.11" statement in `AGENTS.md` may be stale. Check the plan and the current files before relying on a Python version. Also note that the `[tool.coverage.run] command_line` still points at `unittest`, but tests and CI run through pytest.
+Python 3.12 is the floor (`python = "^3.12"`), CI tests 3.12 to 3.14, and `.python-version` is 3.14. The `[tool.coverage.run] command_line` in `pyproject.toml` still points at `unittest`, but tests and CI run through pytest, so ignore it.

@@ -40,7 +40,7 @@ This tool is versatile and can be beneficial across various fields. Its potentia
 To get started with Rexize, please ensure you have the Prerequisites and follow the installation instructions below:
 
 ### Prerequisites
-- Python 3.11 or higher
+- Python 3.12 or higher (tested on 3.12, 3.13 and 3.14)
 - Pip package manager
 - Basic knowledge of the command line interface for now. A GUI wrapper is in the works.
 
