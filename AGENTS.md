@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Python 3.11 CLI tool (`rexize`) for bulk resizing/converting images recursively. Poetry-managed, published to PyPI. Pillow is the only runtime dependency.
+Python 3.12+ CLI tool (`rexize`) for bulk resizing/converting images recursively. Poetry-managed, published to PyPI. Pillow is the only runtime dependency.
 
 ## Commands
 
@@ -14,7 +14,7 @@ bin/rexize <args>                                       # run CLI locally (poetr
 ```
 
 - Tests must run from the repo root: fixtures use relative paths (`tests/data/...`).
-- Python is pinned to 3.11 (`.python-version`, `python = "^3.11"`).
+- Python 3.12 is the floor (`python = "^3.12"`) and CI tests 3.12 to 3.14; local development defaults to 3.14 (`.python-version`).
 
 ## Architecture
 
