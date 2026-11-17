@@ -25,16 +25,16 @@ keywords = ["cli", "image", "resize", "convert", "bulk"]
 rexize = "src.main:main"
 
 [tool.poetry.dependencies]
-python = "^3.11"
-pillow = "^10.2.0"
+python = "^3.12"
+pillow = "^12.3"
 
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.0.1"
-pytest-cov = "^4.1.0"
-pre-commit = "^3.6.2"
-flake8 = "^7.0.0"
-isort = "^5.13.2"
+pytest = "^9.0.3"
+pytest-cov = "^7.1.0"
+pre-commit = "^4.6.2"
+flake8 = "^7.4.1"
+isort = "^9.0.2"
 icecream = "^2.1.3"
 
 

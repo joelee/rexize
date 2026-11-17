@@ -1,1 +1,0 @@
-/home/joel/Projects/GitHub/opencode-template/docs/ideas/AGENTS.md

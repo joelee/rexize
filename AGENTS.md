@@ -32,5 +32,4 @@ bin/rexize <args>                                       # run CLI locally (poetr
 
 ## Repo layout contracts
 
-- `docs/ideas/`, `docs/plans/`, `docs/reviews/` hold immutable, numbered reports. Each is governed by its own `AGENTS.md` plus the agent definitions in `.opencode/agents/` (`IdeaArchitect`, `DeliveryPlanner`, `CodeReview`). Do not create, edit, or renumber files there outside those contracts; use `.agents/skills/allocating-report-numbers/allocate-report.sh` to allocate numbers.
 - Branches: `master` (default) and `development`; CI runs on PRs and pushes to both.
