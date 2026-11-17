@@ -53,7 +53,7 @@ pythonpath = ["src"]
 norecursedirs = [".git", ".github", ".vscode", ".idea", "dist", "__pycache__"]
 
 [tool.coverage.report]
-fail_under = 62
+fail_under = 80
 
 [tool.coverage.run]
 branch = true

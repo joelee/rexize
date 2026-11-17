@@ -8,7 +8,7 @@ Python 3.12+ CLI tool (`rexize`) for bulk resizing/converting images recursively
 poetry install                                          # setup
 poetry run pytest                                       # all tests (run from repo root)
 poetry run pytest tests/test_file_iterator.py::test_file_iterator   # single test
-poetry run pytest --cov=src --cov-report=term-missing tests/        # what CI runs; fails under 62% coverage
+poetry run pytest --cov=src --cov-report=term-missing tests/        # what CI runs; fails under 80% coverage
 pre-commit run --all-files                             # mirrors CI: black, flake8, isort, poetry check
 bin/rexize <args>                                       # run CLI locally (poetry run python src/main.py)
 ```

@@ -10,7 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 poetry install
 poetry run pytest                                                 # run from repo root (fixtures use relative paths)
 poetry run pytest tests/test_file_iterator.py::test_file_iterator # single test
-poetry run pytest --cov=src --cov-report=term-missing tests/      # CI invocation, fails under 62%
+poetry run pytest --cov=src --cov-report=term-missing tests/      # CI invocation, fails under 80%
 pre-commit run --all-files                                        # black, flake8, isort, poetry check
 bin/rexize -W 800 in_dir out_dir -f webp                          # run the CLI locally
 ```
