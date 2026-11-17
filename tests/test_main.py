@@ -142,7 +142,15 @@ def test_main_applies_rgb_and_grayscale(monkeypatch, input_dir, tmp_path):
     out_dir = tmp_path / "out"
 
     code = run_main(
-        monkeypatch, input_dir, out_dir, "-W", "100", "--rgb", "--grayscale", "-f", "png"
+        monkeypatch,
+        input_dir,
+        out_dir,
+        "-W",
+        "100",
+        "--rgb",
+        "--grayscale",
+        "-f",
+        "png",
     )
 
     assert code == 0
